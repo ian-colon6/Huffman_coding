@@ -66,19 +66,26 @@ public class SortedLinkedList<E extends Comparable<? super E>> extends AbstractS
 		Node<E> newNode = new Node<>(e);
 		Node<E> curNode;
 
-		
+		/* 
+		 * If the list is empty or newNode is the smallest
+		 * replace newNode as the new head 
+		 */
 		if(this.head == null || newNode.getValue().compareTo(this.head.getValue()) < 0){
 			
 			newNode.setNext(this.head);
 			this.head = newNode;
 			
 		}else{
-			
+			//Initialize curNode as head if not empty
 			curNode = this.head;
+			//Continue to iterate through nodes until a larger value is found
+			// or until curNode reaches the last element
 			while(curNode.getNext() != null && newNode.getValue().compareTo(curNode.getNext().getValue()) > 0) {
 	
 				curNode = curNode.getNext();
 			}
+			//Replace newNode's larger value to point to curNode's next
+			//Make curNode point to newNode
 			newNode.setNext(curNode.getNext());
 			curNode.setNext(newNode);
 			

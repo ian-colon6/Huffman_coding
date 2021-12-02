@@ -320,7 +320,6 @@ public class HuffmanCoding {
 		System.out.println("Difference in space requiered is " + savings + "%.");
 	}
 
-
 	/*************************************************************************************
 	 ** ADD ANY AUXILIARY METHOD YOU WISH TO IMPLEMENT TO FACILITATE YOUR SOLUTION HERE 
 	 * @param huff_code **
