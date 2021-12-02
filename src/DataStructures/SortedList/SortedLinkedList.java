@@ -4,7 +4,7 @@ package SortedList;
 /**
  * Implementation of a SortedList using a SinglyLinkedList
  * @author Fernando J. Bermudez & Juan O. Lopez
- * @author ADD YOUR NAME HERE
+ * @author Ián G. Colón Rosado
  * @version 2.0
  * @since 10/16/2021
  */
@@ -66,6 +66,26 @@ public class SortedLinkedList<E extends Comparable<? super E>> extends AbstractS
 		Node<E> newNode = new Node<>(e);
 		Node<E> curNode;
 
+		
+		if(this.head == null || newNode.getValue().compareTo(this.head.getValue()) < 0){
+			
+			newNode.setNext(this.head);
+			this.head = newNode;
+			
+		}else{
+			
+			curNode = this.head;
+			while(curNode.getNext() != null && newNode.getValue().compareTo(curNode.getNext().getValue()) > 0) {
+	
+				curNode = curNode.getNext();
+			}
+			newNode.setNext(curNode.getNext());
+			curNode.setNext(newNode);
+			
+		}
+		
+		this.currentSize++;
+
 	}
 
 	@Override
@@ -73,8 +93,28 @@ public class SortedLinkedList<E extends Comparable<? super E>> extends AbstractS
 		/* TODO ADD CODE HERE */
 		/* Special case: Be careful when the value is found at the head node */
 		Node<E> rmNode, curNode;
+		/* Initialize curNode as head */
+		curNode = this.head;
+		while(curNode != null){
+
+			/* 
+				If curNode's element is equal to the one to be removed:
+				assign curNode to rmNode
+				assign curNode to its next element
+				nullify rmNode to remove from list and return true
+			*/
+			if(curNode.getValue().equals(e)){
+				rmNode = curNode;
+				curNode = curNode.getNext();
+				rmNode.clear();
+				this.currentSize--;
+				return true;
+			}else{
+				curNode = curNode.getNext();
+			}
+		}
 		
-		return false; //Dummy Return
+		return false;
 	}
 
 	@Override
@@ -83,23 +123,77 @@ public class SortedLinkedList<E extends Comparable<? super E>> extends AbstractS
 		/* Special case: Be careful when index = 0 */
 		Node<E> rmNode, curNode;
 		E value = null;
+
 		
-		return value; //Dummy Return
+		if(index == 0) {
+			rmNode = this.head;
+			this.head = this.head.getNext();
+		}
+		
+		else {
+			curNode = this.head;
+			for(int i = 0; i < index - 1; i++) {
+				curNode = curNode.getNext();
+			}
+
+			rmNode = curNode.getNext();
+			curNode.setNext(rmNode.getNext());
+			
+		}
+		value = rmNode.getValue();
+		rmNode.clear();
+		this.currentSize--;
+		
+		return value;
 	}
 
 	@Override
 	public int firstIndex(E e) {
 		/* TODO ADD CODE HERE */
-		int target = -1;
+		int target = 0;
 		
-		return target; //Dummy Return
+		/**
+		 * Initialize curr as head of list
+		 * when the value of curr is equal to e
+		 * it returns the target index
+		 * else keep iterating through list and increasing target
+		 * if not found returns -1
+		 */
+		Node<E> curr = head;
+		while(curr != null){
+			if(curr.getValue().equals(e)){
+				return target;
+			}else{
+				curr = curr.getNext();
+				target++;
+			}
+
+			if(curr.getNext() == null){
+				return -1;
+			}
+		}
+		
+		return target;
+		
 	}
 
 	@Override
 	public E get(int index) {
 		/* TODO ADD CODE HERE */
 		
-		return null; //Dummy Return
+		/**
+		 * Initialize target as head of list
+		 */
+		Node<E> target = this.head; 
+
+		/**
+		 * Assign the node that is reached when i equals index to target and return it
+		 */
+		for (int i = 0; i < index; i++){
+			target = target.getNext(); 
+		}
+
+		return target.getValue();
 	}
 
 	
